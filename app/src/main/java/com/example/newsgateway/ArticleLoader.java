@@ -85,7 +85,7 @@ public class ArticleLoader implements Runnable {
         mainActivity.runOnUiThread(()->{
             if(newsArticleArrayList!=null)
                 Toast.makeText(mainActivity,"with size"+newsArticleArrayList.size(),Toast.LENGTH_LONG).show();
-            mainActivity.updateData(newsArticleArrayList);
+            mainActivity.updateArticleData(newsArticleArrayList);
         });
     }
 

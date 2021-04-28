@@ -21,7 +21,7 @@ public class NewsService extends Service {
     private boolean ran = true;
     private NewsSource newssource;
     private ArrayList<NewsArticle> articlelist = new ArrayList<>();
-    private ServiceReciever serviceReciever;
+    private ServiceReceiver serviceReciever;
 
     @Nullable
     @Override
@@ -32,7 +32,7 @@ public class NewsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: new service started");
-        serviceReciever = new ServiceReciever();
+        serviceReciever = new ServiceReceiver();
         IntentFilter filter1 = new IntentFilter(SERVICE_MSG);
         registerReceiver(serviceReciever,filter1);
 
@@ -59,8 +59,21 @@ public class NewsService extends Service {
         return Service.START_STICKY;
 
     }
+    public void makeArticles(ArrayList<NewsArticle> newsArticles){
+        articlelist.clear();
+        articlelist.addAll(newsArticles);
+    }
 
-    public class ServiceReciever extends BroadcastReceiver{
+    public void onDestroy(){
+
+        unregisterReceiver(serviceReciever);
+        Intent intent = new Intent(NewsService.this, MainActivity.class);
+        stopService(intent);
+
+    }
+
+
+    private class ServiceReceiver extends BroadcastReceiver{
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -71,21 +84,8 @@ public class NewsService extends Service {
                         newssource = (NewsSource) intent.getSerializableExtra("myinfo");
                         new ArticleLoader(NewsService.this, newssource.getId()).run();
                     }
+            }
         }
-    }
-
-    public void makeArticles(ArrayList<NewsArticle> newsArticles){
-            articlelist.clear();
-            articlelist.addAll(newsArticles);
-    }
-
-    public void onDestroy(){
-
-            unregisterReceiver(serviceReciever);
-            Intent intent = new Intent(NewsService.this, MainActivity.class);
-            stopService(intent);
-
-    }
 
     }
 
