@@ -21,7 +21,8 @@ public class NewsService extends Service {
     private boolean ran = true;
     private NewsSource newssource;
     private ArrayList<NewsArticle> articlelist = new ArrayList<>();
-    private ServiceReceiver serviceReciever;
+    private Reciever serviceReciever;
+    private MainActivity mainActivity;
 
     @Nullable
     @Override
@@ -32,7 +33,7 @@ public class NewsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "onStartCommand: new service started");
-        serviceReciever = new ServiceReceiver();
+        serviceReciever = new Reciever();
         IntentFilter filter1 = new IntentFilter(SERVICE_MSG);
         registerReceiver(serviceReciever,filter1);
 
@@ -46,7 +47,7 @@ public class NewsService extends Service {
                         }
                         Intent intent1 = new Intent();
                         intent1.setAction(NEWS_MSG);
-                        intent1.putExtra("harsh", articlelist);
+                        intent1.putExtra("faizan", articlelist);
                         sendBroadcast(intent1);
                         articlelist.removeAll(articlelist);
                     }catch(InterruptedException excp){
@@ -71,12 +72,11 @@ public class NewsService extends Service {
         stopService(intent);
 
     }
-
-
-    private class ServiceReceiver extends BroadcastReceiver{
-
+    private class Reciever extends BroadcastReceiver
+    {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(Context context, Intent intent)
+        {
             switch (intent.getAction()) {
                 case SERVICE_MSG:
                     if (intent.hasExtra("myinfo"))
@@ -85,12 +85,9 @@ public class NewsService extends Service {
                         new ArticleLoader(NewsService.this, newssource.getId()).run();
                     }
             }
+
         }
-
     }
-
-
-
 
 
 }
