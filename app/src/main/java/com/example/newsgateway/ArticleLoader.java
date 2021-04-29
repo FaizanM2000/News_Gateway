@@ -76,17 +76,16 @@ public class ArticleLoader implements Runnable {
 
     public void handleResults(final String jsonString){
         if(jsonString==null){
-            Log.d(TAG, "handleResults: download Failed");
+            Log.d(TAG, "handleResults: article download Failed check article loader");
             mainActivity.runOnUiThread(() -> mainActivity.error404());
             return;
         }
         final ArrayList<NewsArticle> newsArticleArrayList = parseJSON(jsonString);
 
-        mainActivity.runOnUiThread(()->{
-            if(newsArticleArrayList!=null)
-                Toast.makeText(mainActivity,"with size"+newsArticleArrayList.size(),Toast.LENGTH_LONG).show();
-            mainActivity.updateArticleData(newsArticleArrayList);
-        });
+        if(newsArticleArrayList!=null){
+            newsService.makeArticles(newsArticleArrayList);
+        }
+
     }
 
     private ArrayList<NewsArticle> parseJSON(String s){

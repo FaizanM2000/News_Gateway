@@ -82,7 +82,7 @@ public class SourceLoader implements Runnable {
 
     public void handleResults(final String jsonString){
         if(jsonString==null){
-            Log.d(TAG, "handleResults: download Failed");
+            Log.d(TAG, "handleResults: source download Failed, check source loader");
             mainActivity.runOnUiThread(() -> mainActivity.error404());
             return;
         }
@@ -91,7 +91,7 @@ public class SourceLoader implements Runnable {
         mainActivity.runOnUiThread(()->{
             if(sourcelist!=null)
                 Toast.makeText(mainActivity,"with size"+sourcelist.size(),Toast.LENGTH_LONG).show();
-            mainActivity.updateData(sourcelist);
+            mainActivity.setSources(sourcelist,newsresourcecategory1);
         });
     }
 

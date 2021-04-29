@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         fragments = getFragments();
 
         newsadapter = new MyPageAdapter(getSupportFragmentManager());
-        pager = (ViewPager) findViewById(R.id.viewpager);
+        pager =  findViewById(R.id.viewpager);
         pager.setBackgroundResource(R.drawable.newspic);
         pager.setAdapter(newsadapter);
 
@@ -147,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
             switch (intent.getAction())
             {
                 case NEWS_MSG:
-                    if (intent.hasExtra("harsh"))
+                    if (intent.hasExtra("faizan"))
                     {
-                        reDoFragments((ArrayList<NewsArticle>) intent.getSerializableExtra("harsh"));
+                        reDoFragments((ArrayList<NewsArticle>) intent.getSerializableExtra("faizan"));
                     }
             }
 
@@ -339,11 +339,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void error404() {
+        Log.d(TAG, "error404: unable to get news");;
     }
 
-    public void updateData(ArrayList<NewsSource> newsArticleArrayList) {
-    }
 
-    public void updateArticleData(ArrayList<NewsArticle> newsArticleArrayList) {
-    }
 }
