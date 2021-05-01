@@ -47,6 +47,8 @@ public class SourceLoader implements Runnable {
         Log.d(TAG, "run: " + urlToUse);
 
         StringBuilder sb = new StringBuilder();
+
+
         try {
             URL url = new URL(urlToUse);
 
@@ -54,12 +56,13 @@ public class SourceLoader implements Runnable {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("User-Agent", "Mozilla/88.0");
             connection.connect();
-            Log.d(TAG, "run: "+ connection.getResponseCode());
             InputStream is = connection.getInputStream();
             BufferedReader reader = new BufferedReader((new InputStreamReader(is)));
 
             if (connection.getResponseCode() != HttpsURLConnection.HTTP_OK) {
+                Log.d(TAG, "run: not OK");
                 handleResults(null);
                 return;
             }
@@ -120,25 +123,13 @@ public class SourceLoader implements Runnable {
                 newsresourcelist.add(new NewsSource(id, name, url, category));
                 newsresourcecategory.add(category);
             }
-            for(int k = 0; k<newsresourcecategory.size(); k++)
-            {
-                Log.d(TAG, "ResourceList: [" + k + "]" + newsresourcecategory);
-            }
+
             Set<String> hashmap = new HashSet<>();
             hashmap.addAll(newsresourcecategory);
             newsresourcecategory.clear();
             newsresourcecategory1.addAll(hashmap);
 
-            Log.d(TAG, "NewResourceList: ["+
-                    "]" + newsresourcecategory1);
 
-            for(int i = 0; i<newsresourcelist.size(); i++)
-            {
-                Log.d(TAG, "ResourceList: [" + i + "]" + newsresourcelist.get(i).getId());
-                Log.d(TAG, "ResourceList: [" + i + "]" + newsresourcelist.get(i).getName());
-                Log.d(TAG, "ResourceList: [" + i + "]" + newsresourcelist.get(i).getUrl());
-                Log.d(TAG, "ResourceList: [" + i + "]" + newsresourcelist.get(i).getCategory());
-            }
 
             return newsresourcelist;
 

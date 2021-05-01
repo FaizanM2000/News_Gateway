@@ -87,11 +87,11 @@ public class ArticleFragment extends Fragment {
 
         setRetainInstance(true);
         View v = inflater.inflate(R.layout.fragmentlayout, container, false);
-        authornametext = (TextView)v.findViewById(R.id.Authorname);
-        image = (ImageView) v.findViewById(R.id.positionphoto);
-        title = (TextView)v.findViewById(R.id.Title);
-        description = (TextView)v.findViewById(R.id.Description);
-        pageno = (TextView)v.findViewById(R.id.pageno);
+        authornametext = v.findViewById(R.id.Authorname);
+        image = v.findViewById(R.id.positionphoto);
+        title = v.findViewById(R.id.Title);
+        description = v.findViewById(R.id.Description);
+        pageno = v.findViewById(R.id.pageno);
 
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
@@ -101,9 +101,9 @@ public class ArticleFragment extends Fragment {
             String newDate = simpleDateFormat.format(createdDate);
 
             String [] d1 = newDate.split(" ");
-            finalDate = d1[1]+" "+ d1[2]+", 2017 "+d1[3];
+            finalDate = d1[1]+" "+ d1[2]+", 2021 "+d1[3];
             d2 = finalDate;
-            Log.d("Final Date:", "Final Date ==> "+finalDate);
+
 //            dateSet(finalDate);
         }catch(Exception pe) {
             Log.d(TAG, "onCreateView: Inside exception");
@@ -128,20 +128,25 @@ public class ArticleFragment extends Fragment {
             authornametext.setText("No Information Available!");
         }
         pageno.setText(message6);
+        Log.d(TAG, "message1: "+ message1);
+        Log.d(TAG, "message2: "+message2);
+        Log.d(TAG, "message3: "+message3);
+        Log.d(TAG, "message4: "+message4);
+        Log.d(TAG, "message5: "+message5);
+        Log.d(TAG, "message6: "+message6);
 
 
         Log.d("imageview", message1);
         if (message1 != null) {
 
             final String imageurl = message1;
-            Log.d("ImageUrl:", message1);
-            Log.d("1", "1");
 
             Picasso picasso = new Picasso.Builder(this.getContext()).listener(new Picasso.Listener()
             {
                 @Override
                 public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
                 { // Here we try https if the http image attempt failed
+                    Log.d(TAG, "onImageLoadFailed: image failed");
                     final String changedUrl = imageurl.replace("http:", "https:");
                     picasso.load(changedUrl).error(R.drawable.brokenimage)
                             .placeholder(R.drawable.placeholder).into(image);
@@ -195,6 +200,12 @@ public class ArticleFragment extends Fragment {
             description.setText("No Information Available!");
         }
         return v;
+
+    }
+
+    public void loadPhoto(String url){
+
+
 
     }
 

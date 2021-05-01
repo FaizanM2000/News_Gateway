@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Log.d("redo fragments ran", article.get(f).getTitle());
             //newsadapter.notifyChangeInPosition(i);
-            fragments.add(ArticleFragment.newInstance(article.get(f).getTitle(), article.get(f).getUrl(), article.get(f).getAuthor(), article.get(f).getDescription(), article.get(f).getDatepub(), article.get(f).getUrl(), " Page " + (f+1) + " of" + article.size()));
+            fragments.add(ArticleFragment.newInstance(article.get(f).getTitle(), article.get(f).getImageurl(), article.get(f).getAuthor(), article.get(f).getDescription(), article.get(f).getDatepub(), article.get(f).getUrl(), " Page " + (f+1) + " of" + article.size()));
 
         }
 
@@ -268,7 +268,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("item", String.valueOf(item));
-        new SourceLoader(MainActivity.this).run();
+        SourceLoader sourceLoader = new SourceLoader((MainActivity.this));
+        new Thread(sourceLoader).start();
         return true;
     }
 

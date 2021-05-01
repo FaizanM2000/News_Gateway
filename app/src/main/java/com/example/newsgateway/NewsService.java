@@ -74,6 +74,7 @@ public class NewsService extends Service {
     }
     private class Reciever extends BroadcastReceiver
     {
+        MainActivity ma = new MainActivity();
         @Override
         public void onReceive(Context context, Intent intent)
         {
@@ -82,7 +83,9 @@ public class NewsService extends Service {
                     if (intent.hasExtra("myinfo"))
                     {
                         newssource = (NewsSource) intent.getSerializableExtra("myinfo");
-                        new ArticleLoader(NewsService.this, newssource.getId()).run();
+                        ArticleLoader articleLoader = new  ArticleLoader(NewsService.this, newssource.getId(),ma);
+                        new Thread(articleLoader).start();
+
                     }
             }
 

@@ -28,9 +28,10 @@ public class ArticleLoader implements Runnable {
     private static final String apikey = "&apiKey=a1c809e2e12b4d4f9e05d1f7d2fb2004";
 
 
-    public ArticleLoader(NewsService newsService, String id) {
+    public ArticleLoader(NewsService newsService, String id,MainActivity ma) {
         this.newsService = newsService;
         this.newsid = id;
+        this.mainActivity = ma;
     }
 
 
@@ -47,6 +48,7 @@ public class ArticleLoader implements Runnable {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             connection.setRequestProperty("Accept", "application/json");
+            connection.setRequestProperty("User-Agent", "");
             connection.connect();
             Log.d(TAG, "run: " + connection.getResponseCode());
             InputStream is = connection.getInputStream();
