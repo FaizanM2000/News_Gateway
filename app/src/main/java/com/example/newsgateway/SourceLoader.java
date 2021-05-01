@@ -32,19 +32,40 @@ public class SourceLoader implements Runnable {
     ArrayList<String> newsresourcecategory = new ArrayList<>();
     ArrayList<String> newsresourcecategory1 = new ArrayList<>();
     HashMap<Integer, NewsSource> map = new HashMap<>();
-    ArrayList uniqueList = new ArrayList();
-
+    //ArrayList uniqueList = new ArrayList();
+    private String category;
 
     public SourceLoader(MainActivity ma){
         mainActivity = ma;
     }
-
+    public SourceLoader(MainActivity ma, String item){
+        mainActivity = ma;
+        category = item;
+    }
     @Override
     public void run() {
-
-        Uri.Builder buildURL = Uri.parse(APIKEY+apiresourcekey).buildUpon();
-        String urlToUse = buildURL.build().toString();
-        Log.d(TAG, "run: " + urlToUse);
+        String urlToUse;
+        if (category != null) {
+            if(category.equals("all")){
+                Log.d(TAG, "run: category was all ");
+                Uri.Builder buildURL = Uri.parse(APIKEY+apiresourcekey).buildUpon();
+                urlToUse = buildURL.build().toString();
+                Log.d(TAG, "run: " + urlToUse);
+            }
+            else{
+                Log.d(TAG, "run: category was "+category);
+                Uri.Builder buildURL = Uri.parse(APIKEY+category+apiresourcekey).buildUpon();
+                urlToUse = buildURL.build().toString();
+                Log.d(TAG, "run: " + urlToUse);
+            }
+        }
+        else{
+            Log.d(TAG, "run: category was null");
+            Uri.Builder buildURL = Uri.parse(APIKEY+apiresourcekey).buildUpon();
+            urlToUse = buildURL.build().toString();
+            Log.d(TAG, "run: " + urlToUse);
+        }
+       
 
         StringBuilder sb = new StringBuilder();
 
@@ -72,7 +93,7 @@ public class SourceLoader implements Runnable {
                 sb.append(line).append('\n');
             }
 
-            Log.d(TAG, "doInBackground: " + sb.toString());
+
 
         } catch (Exception e) {
             Log.e(TAG, "doInBackground: ", e);

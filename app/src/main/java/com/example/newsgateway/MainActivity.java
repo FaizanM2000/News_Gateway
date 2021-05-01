@@ -268,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("item", String.valueOf(item));
-        SourceLoader sourceLoader = new SourceLoader((MainActivity.this));
+        SourceLoader sourceLoader = new SourceLoader(MainActivity.this,String.valueOf(item));
         new Thread(sourceLoader).start();
         return true;
     }
