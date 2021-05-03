@@ -22,10 +22,13 @@ public class NewsSource implements Serializable {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
+        SpannableString s = new SpannableString(name);
+        spannedname = s;
     }
-    public void setName(SpannableString s){this.spannedname = s;}
+
 
     public String getUrl() {
         return url;
@@ -48,6 +51,8 @@ public class NewsSource implements Serializable {
     public NewsSource(String id, String name, String url, String category){
         this.id = id;
         this.name = name;
+        //SpannableString s = new SpannableString(name);
+        //spannedname = s;
         this.url = url;
         this.category = category;
     }

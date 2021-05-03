@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //Fill the list of sources
+
         for(int k = 0; k< this.newsresourcelist.size(); k++)
         {
             items.add(this.newsresourcelist.get(k).getName());
@@ -174,7 +175,9 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
         mDrawerListadapter.notifyDataSetChanged();
 
-
+        /*
+        mDrawerListadapter = new ArrayAdapter<>(this,
+                R.layout.drawer_list_object, spannableStrings);
         for(int k = 0; k< this.newsresourcelist.size(); k++){
 
                 NewsSource source = newsresourcelist.get(k);
@@ -221,7 +224,8 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG, "setSources: "+spannableStrings.toString());
 
-
+        mDrawerListadapter.notifyDataSetChanged();
+        */
 
     }
 
