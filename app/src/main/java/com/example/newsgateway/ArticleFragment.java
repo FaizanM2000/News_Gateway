@@ -128,15 +128,9 @@ public class ArticleFragment extends Fragment {
             authornametext.setText("No Information Available!");
         }
         pageno.setText(message6);
-        Log.d(TAG, "message1: "+ message1);
-        Log.d(TAG, "message2: "+message2);
-        Log.d(TAG, "message3: "+message3);
-        Log.d(TAG, "message4: "+message4);
-        Log.d(TAG, "message5: "+message5);
-        Log.d(TAG, "message6: "+message6);
 
 
-        Log.d("imageview", message1);
+
         if (message1 != null) {
 
             final String imageurl = message1;
@@ -203,11 +197,7 @@ public class ArticleFragment extends Fragment {
 
     }
 
-    public void loadPhoto(String url){
 
-
-
-    }
 
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         if(savedInstanceState!=null)

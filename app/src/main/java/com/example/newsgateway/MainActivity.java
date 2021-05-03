@@ -12,7 +12,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +30,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.lang.String.valueOf;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         SourceLoader sourceLoader = new SourceLoader(MainActivity.this);
         new Thread(sourceLoader).start();
 
-        newsreceivercategory = new Reciever();//NEED TO MAKE CHANGES TO THIS
+        newsreceivercategory = new Reciever();
 
         Intent serviceintent = new Intent(MainActivity.this, NewsService.class);
         startService(serviceintent);
@@ -98,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                             if(items.get(position).equals(newsresourcelist.get(i).getName()))
                             {
                                 Intent newintent = new Intent();
-                                Log.d("Position", items.get(position));
                                 newintent.putExtra("myinfo", newsresourcelist.get(i));
                                 //Broadcast the intent
                                 newintent.setAction(SERVICE_MSG);
@@ -138,23 +144,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    private class Reciever extends BroadcastReceiver
-    {
-        @Override
-        //ONRECEIVE method
-        public void onReceive(Context context, Intent intent)
-        {
-            switch (intent.getAction())
-            {
-                case NEWS_MSG:
-                    if (intent.hasExtra("faizan"))
-                    {
-                        reDoFragments((ArrayList<NewsArticle>) intent.getSerializableExtra("faizan"));
-                    }
-            }
-
-        }
-    }
 
     public void setSources(ArrayList<NewsSource> newsresourcelist, ArrayList<String> newsresourcecategory1)
     {
@@ -162,20 +151,17 @@ public class MainActivity extends AppCompatActivity {
         items.removeAll(items);
         this.newsresourcelist.removeAll(this.newsresourcelist);
         this.newsresourcelist.addAll(newsresourcelist);
-        Log.d(TAG, "StockList" + this.newsresourcelist.toString());
-        Log.d(TAG, String.valueOf(items.size()));
-        Log.d(TAG, String.valueOf(this.newsresourcelist.size()));
-        //clear the list of source name
+
         newsresourcecategory1.add(0, "all");
 
-        Log.d("flag1", String.valueOf(flag3));
+
         if(flag3 == 1)
         {
             newsresource.removeAll(newsresource);
             newsresource.addAll(newsresourcecategory1);
             categoryStringarray = newsresource.toArray(new String[newsresource.size()]);
             flag3++;
-            Log.d("flag2", String.valueOf(flag3));
+
         }
 
         //Fill the list of sources
@@ -185,10 +171,62 @@ public class MainActivity extends AppCompatActivity {
             hashmap.put(this.newsresourcelist.get(k).getName(), this.newsresourcelist.get(k));
         }
         invalidateOptionsMenu();
-        Log.d(TAG, String.valueOf(items.size()));
-//            mDrawerList.setAdapter(new ArrayAdapter<>(this,
-//                R.layout.drawer_list_item, items));
         mDrawerListadapter.notifyDataSetChanged();
+
+        /*
+        View view;
+        for(int k = 0; k< this.newsresourcelist.size(); k++){
+
+            for(int i =0;i<items.size();i++){
+                MenuItem item  = view;///NEED A WAY TO GET DRAWER LAYOUT ITEM
+                Log.d(TAG, "drawerlist item "+item.getTitle());
+                SpannableString s = new SpannableString(item.getTitle().toString());
+                if(this.newsresourcelist.get(k).getCategory()=="all"){
+                    Log.d(TAG, "setSources: black");
+                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="general"){
+                    Log.d(TAG, "setSources: yellow");
+                    s.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="sports"){
+                    Log.d(TAG, "setSources: blue");
+                    s.setSpan(new ForegroundColorSpan(Color.BLUE), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="business"){
+                    Log.d(TAG, "setSources: green");
+                    s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="entertainment"){
+                    Log.d(TAG, "setSources: red");
+                    s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="science"){
+                    Log.d(TAG, "setSources: cyan");
+                    s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="health"){
+                    Log.d(TAG, "setSources: magenta");
+                    s.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+                if(this.newsresourcelist.get(k).getCategory()=="technology"){
+                    Log.d(TAG, "setSources: dkgray");
+                    s.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, s.length(), 0);
+                    item.setTitle(s);
+                }
+
+            }
+        }
+        */
+
+
     }
 
     private void reDoFragments(ArrayList<NewsArticle> article)
@@ -202,7 +240,6 @@ public class MainActivity extends AppCompatActivity {
         for (int f = 0; f < article.size(); f++)
         {
             Log.d("redo fragments ran", article.get(f).getTitle());
-            //newsadapter.notifyChangeInPosition(i);
             fragments.add(ArticleFragment.newInstance(article.get(f).getTitle(), article.get(f).getImageurl(), article.get(f).getAuthor(), article.get(f).getDescription(), article.get(f).getDatepub(), article.get(f).getUrl(), " Page " + (f+1) + " of" + article.size()));
 
         }
@@ -236,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.action_menu, menu);
+
         return true;
     }
 
@@ -243,11 +281,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         Log.d(TAG,"onPrepareOptionsMenu "+ categoryStringarray.length);
         menu.clear();
+
         if(categoryStringarray.length != 0)
         {
             for (int i = 0; i < categoryStringarray.length; i++)
             {
                 menu.add(R.menu.action_menu, Menu.NONE, 0, categoryStringarray[i]);
+            }
+            Integer[] colorarray = {Color.BLACK,Color.YELLOW,Color.BLUE,Color.GREEN,Color.RED,Color.CYAN,Color.MAGENTA,Color.DKGRAY};
+
+            for(int i =0; i<menu.size();i++){
+                MenuItem item = menu.getItem(i);
+                SpannableString s = new SpannableString(menu.getItem(i).getTitle().toString());
+                s.setSpan(new ForegroundColorSpan(colorarray[i]), 0, s.length(), 0);
+                item.setTitle(s);
             }
             return true;
         }
@@ -257,22 +304,49 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
         if (mDrawerToggle.onOptionsItemSelected(item))
         {
             Log.d(TAG, "onOptionsItemSelected: mDrawerToggle " + item);
             return true;
         }
 
-        Log.d("item", String.valueOf(item));
-        SourceLoader sourceLoader = new SourceLoader(MainActivity.this,String.valueOf(item));
+        Log.d("item", valueOf(item));
+        SourceLoader sourceLoader = new SourceLoader(MainActivity.this, valueOf(item));
         new Thread(sourceLoader).start();
         return true;
     }
 
+    @Override
+    protected void onDestroy()
+    {
+        unregisterReceiver(newsreceivercategory);
+        Intent intent = new Intent(MainActivity.this, NewsService.class);
+        stopService(intent);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        items.addAll(savedInstanceState.getStringArrayList("HISTORY"));
+        newsresource.addAll(savedInstanceState.getStringArrayList("HISTORY1"));
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("HISTORY",items);
+        outState.putStringArrayList("HISTORY1",newsresource);
+
+    }
+
+    public void error404() {
+        Log.d(TAG, "error404: unable to get news");;
+    }
+///////////////////////////////////////////////////////////////////////////
     private class MyPageAdapter extends FragmentPagerAdapter {
         private long baseId = 0;
 
@@ -309,38 +383,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
-    @Override
-    protected void onDestroy()
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    private class Reciever extends BroadcastReceiver
     {
-        unregisterReceiver(newsreceivercategory);
-        Intent intent = new Intent(MainActivity.this, NewsService.class);
-        stopService(intent);
-        super.onDestroy();
-    }
+        @Override
+        //ONRECEIVE method
+        public void onReceive(Context context, Intent intent)
+        {
+            switch (intent.getAction())
+            {
+                case NEWS_MSG:
+                    if (intent.hasExtra("faizan"))
+                    {
+                        reDoFragments((ArrayList<NewsArticle>) intent.getSerializableExtra("faizan"));
+                    }
+            }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState)
-    {
-        super.onRestoreInstanceState(savedInstanceState);
-        items.addAll(savedInstanceState.getStringArrayList("HISTORY"));
-        newsresource.addAll(savedInstanceState.getStringArrayList("HISTORY1"));
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState)
-    {
-        super.onSaveInstanceState(outState);
-        outState.putStringArrayList("HISTORY",items);
-        outState.putStringArrayList("HISTORY1",newsresource);
-
-    }
-
-
-
-    public void error404() {
-        Log.d(TAG, "error404: unable to get news");;
+        }
     }
 
 

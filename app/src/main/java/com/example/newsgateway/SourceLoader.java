@@ -133,13 +133,13 @@ public class SourceLoader implements Runnable {
                 {
                     JSONObject jb1 = response1.getJSONObject(i);
                     id = jb1.getString("id");
-                    Log.d("[" + i + "]" + "Channelid:", id);
+
                     name = jb1.getString("name");
-                    Log.d("[" + i + "]" + "Channelname:", name);
+
                     url = jb1.getString("url");
-                    Log.d("[" + i + "]" + "ChannelURL:", url);
+
                     category = jb1.getString("category");
-                    Log.d("[" + i + "]" + "ChannelCategory:", category);
+
                 }
                 newsresourcelist.add(new NewsSource(id, name, url, category));
                 newsresourcecategory.add(category);
