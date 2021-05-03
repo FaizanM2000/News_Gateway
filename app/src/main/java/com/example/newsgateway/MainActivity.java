@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> items = new ArrayList<>();
     private ArrayList<String> newsresource = new ArrayList<>();
     private ArrayList<String> newsresource1 = new ArrayList<>();
+    private ArrayList<SpannableString> spannableStrings = new ArrayList<>();
     private ArrayList<NewsSource> newsresourcelist = new ArrayList<>();
     String et2;
     String[] categoryStringarray = new String[newsresource.size()];
@@ -174,62 +175,51 @@ public class MainActivity extends AppCompatActivity {
         mDrawerListadapter.notifyDataSetChanged();
 
 
-        View view;
         for(int k = 0; k< this.newsresourcelist.size(); k++){
-
-            for(int i =0;i<items.size();i++){
 
                 NewsSource source = newsresourcelist.get(k);
                 Log.d(TAG, "drawerlist item "+source.getName());
                 SpannableString s = new SpannableString(source.getName());
-                if(this.newsresourcelist.get(k).getCategory()=="all"){
-                    Log.d(TAG, "setSources: black");
-                    s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    source.setName(s);
-                }
-                if(this.newsresourcelist.get(k).getCategory()=="general"){
+
+                if(this.newsresourcelist.get(k).getCategory().equals("general")){
                     Log.d(TAG, "setSources: yellow");
                     s.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="sports"){
+                if(this.newsresourcelist.get(k).getCategory().equals("sports")){
                     Log.d(TAG, "setSources: blue");
                     s.setSpan(new ForegroundColorSpan(Color.BLUE), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="business"){
+                if(this.newsresourcelist.get(k).getCategory().equals("business")){
                     Log.d(TAG, "setSources: green");
                     s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="entertainment"){
+                if(this.newsresourcelist.get(k).getCategory().equals("entertainment")){
                     Log.d(TAG, "setSources: red");
                     s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="science"){
+                if(this.newsresourcelist.get(k).getCategory().equals("science")){
                     Log.d(TAG, "setSources: cyan");
                     s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="health"){
+                if(this.newsresourcelist.get(k).getCategory().equals("health")){
                     Log.d(TAG, "setSources: magenta");
                     s.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-                if(this.newsresourcelist.get(k).getCategory()=="technology"){
+                if(this.newsresourcelist.get(k).getCategory().equals("technology")){
                     Log.d(TAG, "setSources: dkgray");
                     s.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, s.length(), 0);
-                    source.setName(s);
+                    spannableStrings.add(s);
                 }
-
-            }
 
 
         }
-        
-
-
+        Log.d(TAG, "setSources: "+spannableStrings.toString());
 
 
 

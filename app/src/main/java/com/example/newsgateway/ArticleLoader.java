@@ -29,7 +29,7 @@ public class ArticleLoader implements Runnable {
     private String urlToUse;
     private MainActivity mainActivity;
     private static final String newsurl = "https://newsapi.org/v1/articles?source=";
-    private static final String apikey = "&apiKey=a1c809e2e12b4d4f9e05d1f7d2fb2004";
+    private static final String apikey = "&apiKey=0c8aeb3669514ee28944fa033c7b34bd";
 
 
     public ArticleLoader(NewsService newsService, String id,MainActivity ma) {

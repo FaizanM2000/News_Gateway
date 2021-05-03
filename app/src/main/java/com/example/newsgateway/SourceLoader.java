@@ -27,7 +27,7 @@ public class SourceLoader implements Runnable {
     private MainActivity mainActivity;
     private static final String TAG = "NewsSourceDownloader";
     private final String APIKEY = "https://newsapi.org/v1/sources?language=en&country=us&category=";
-    private final String apiresourcekey ="&apiKey=a1c809e2e12b4d4f9e05d1f7d2fb2004";
+    private final String apiresourcekey ="&apiKey=0c8aeb3669514ee28944fa033c7b34bd";
     ArrayList<NewsSource> newsresourcelist = new ArrayList<>();
     ArrayList<String> newsresourcecategory = new ArrayList<>();
     ArrayList<String> newsresourcecategory1 = new ArrayList<>();
