@@ -19,6 +19,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -92,7 +94,8 @@ public class ArticleFragment extends Fragment {
         title = v.findViewById(R.id.Title);
         description = v.findViewById(R.id.Description);
         pageno = v.findViewById(R.id.pageno);
-
+        finalDate = message4;
+        /*
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
             Date createdDate = simpleDateFormat.parse(message4.replaceAll("Z$", "+0000"));
@@ -108,6 +111,7 @@ public class ArticleFragment extends Fragment {
         }catch(Exception pe) {
             Log.d(TAG, "onCreateView: Inside exception");
         }
+        */
 
 
         Log.d("message2", message2.trim());

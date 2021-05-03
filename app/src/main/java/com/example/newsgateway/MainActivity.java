@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
                     {
                         selectItem(position);
-                        Log.d(TAG, items.get(position));
+
                         pager.setBackground(null);
                         //define intent
                         for(int i = 0; i< newsresourcelist.size(); i++)
@@ -173,58 +173,64 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
         mDrawerListadapter.notifyDataSetChanged();
 
-        /*
+
         View view;
         for(int k = 0; k< this.newsresourcelist.size(); k++){
 
             for(int i =0;i<items.size();i++){
-                MenuItem item  = view;///NEED A WAY TO GET DRAWER LAYOUT ITEM
-                Log.d(TAG, "drawerlist item "+item.getTitle());
-                SpannableString s = new SpannableString(item.getTitle().toString());
+
+                NewsSource source = newsresourcelist.get(k);
+                Log.d(TAG, "drawerlist item "+source.getName());
+                SpannableString s = new SpannableString(source.getName());
                 if(this.newsresourcelist.get(k).getCategory()=="all"){
                     Log.d(TAG, "setSources: black");
                     s.setSpan(new ForegroundColorSpan(Color.BLACK), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="general"){
                     Log.d(TAG, "setSources: yellow");
                     s.setSpan(new ForegroundColorSpan(Color.YELLOW), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="sports"){
                     Log.d(TAG, "setSources: blue");
                     s.setSpan(new ForegroundColorSpan(Color.BLUE), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="business"){
                     Log.d(TAG, "setSources: green");
                     s.setSpan(new ForegroundColorSpan(Color.GREEN), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="entertainment"){
                     Log.d(TAG, "setSources: red");
                     s.setSpan(new ForegroundColorSpan(Color.RED), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="science"){
                     Log.d(TAG, "setSources: cyan");
                     s.setSpan(new ForegroundColorSpan(Color.CYAN), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="health"){
                     Log.d(TAG, "setSources: magenta");
                     s.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
                 if(this.newsresourcelist.get(k).getCategory()=="technology"){
                     Log.d(TAG, "setSources: dkgray");
                     s.setSpan(new ForegroundColorSpan(Color.DKGRAY), 0, s.length(), 0);
-                    item.setTitle(s);
+                    source.setName(s);
                 }
 
             }
+
+
         }
-        */
+        
+
+
+
 
 
     }
@@ -239,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int f = 0; f < article.size(); f++)
         {
-            Log.d("redo fragments ran", article.get(f).getTitle());
+
             fragments.add(ArticleFragment.newInstance(article.get(f).getTitle(), article.get(f).getImageurl(), article.get(f).getAuthor(), article.get(f).getDescription(), article.get(f).getDatepub(), article.get(f).getUrl(), " Page " + (f+1) + " of" + article.size()));
 
         }
@@ -255,23 +261,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        IntentFilter filter1 = new IntentFilter(NEWS_MSG);
+        registerReceiver(newsreceivercategory, filter1);
+        super.onResume();
+
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
+
         mDrawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.action_menu, menu);
 
         return true;

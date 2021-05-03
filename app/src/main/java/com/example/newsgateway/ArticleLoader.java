@@ -12,7 +12,11 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -50,7 +54,7 @@ public class ArticleLoader implements Runnable {
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("User-Agent", "");
             connection.connect();
-            Log.d(TAG, "run: " + connection.getResponseCode());
+
             InputStream is = connection.getInputStream();
             BufferedReader reader = new BufferedReader((new InputStreamReader(is)));
 
@@ -64,10 +68,10 @@ public class ArticleLoader implements Runnable {
                 sb.append(line).append('\n');
             }
 
-            Log.d(TAG, "doInBackground: " + sb.toString());
+
 
         } catch (Exception e) {
-            Log.e(TAG, "doInBackground: ", e);
+
             handleResults(null);
             return;
         }
@@ -78,7 +82,7 @@ public class ArticleLoader implements Runnable {
 
     public void handleResults(final String jsonString){
         if(jsonString==null){
-            Log.d(TAG, "handleResults: article download Failed check article loader");
+
             mainActivity.runOnUiThread(() -> mainActivity.error404());
             return;
         }
@@ -96,7 +100,7 @@ public class ArticleLoader implements Runnable {
         {
             JSONObject jr1 = new JSONObject(s);
             JSONArray response1 = jr1.getJSONArray("articles");
-            Log.d(TAG, "Article Length: " +response1.length());
+
 
             for(int i =0; i<response1.length(); i++)
             {
@@ -114,13 +118,17 @@ public class ArticleLoader implements Runnable {
                     Log.d("[" + i + "]" + "PublishedAt:", publishedAt);
                     url = job.getString("url");
                     Log.d("[" + i + "]" + "url:", url);
+                    DateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy HH:mm");
+                    Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(publishedAt);
+                    publishedAt = dateFormat.format(date);
+
                 }
                 articleArrayList.add(new NewsArticle(author, title, description, urlToImage, publishedAt, url));
             }
 
             return articleArrayList;
         }
-        catch (JSONException e)
+        catch (JSONException | ParseException e)
         {
             e.printStackTrace();
         }

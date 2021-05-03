@@ -1,11 +1,14 @@
 package com.example.newsgateway;
 
+import android.text.SpannableString;
+
 import java.io.Serializable;
 
 public class NewsSource implements Serializable {
     private String id;
     private  String name;
     private String url;
+    private SpannableString spannedname;
 
     public String getId() {
         return id;
@@ -22,6 +25,7 @@ public class NewsSource implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    public void setName(SpannableString s){this.spannedname = s;}
 
     public String getUrl() {
         return url;
